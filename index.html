@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta property="og:title" content="🎂 You have a birthday letter!">
-  <meta property="og:description" content="Tap to open your special surprise...">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="An interactive birthday letter made with love for Julia.">
+  <meta name="theme-color" content="#13202a">
+  <meta property="og:title" content="A birthday letter for Julia">
+  <meta property="og:description" content="Tap to open your special surprise.">
   <meta property="og:image" content="https://picsum.photos/seed/golden-birthday-envelope/1200/630.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <title>happy birthday, juls!</title>
+  <title>Happy Birthday, Juls!</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
@@ -27,13 +29,19 @@
     }
   </script>
   <style>
-    body{font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
+    :root{color-scheme:light;--paper:#fff9f2;--paper-soft:#f7e7dc;--ink:#2b2426;--champagne:#f4d8a4;--rose:#d85b7f;--sage:#6f8f72;--teal:#1f6f78;--night:#13202a;--plum:#3d2747}
+    *{box-sizing:border-box}
+    html{min-height:100%;background:var(--paper)}
+    body{min-height:100vh;margin:0;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent;background:linear-gradient(180deg,var(--paper) 0%,var(--paper-soft) 54%,#eef5ef 100%);color:var(--ink)}
+    button,[role="button"]{touch-action:manipulation}
+    button:focus-visible,[role="button"]:focus-visible{outline:2px solid rgba(31,111,120,.78);outline-offset:6px}
     ::-webkit-scrollbar{width:0;display:none}
     body{-ms-overflow-style:none;scrollbar-width:none}
+    body.letter-open{overflow:hidden}
 
-    .scene-bg{background:linear-gradient(160deg,#1a0a2e 0%,#2d1b4e 30%,#1a0a2e 60%,#0f0520 100%);transition:background 1.2s ease}
-    .scene-bg.light{background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 50%,#fefce8 100%)}
-    .scene-glow{background:radial-gradient(ellipse at 50% 50%,rgba(251,146,60,.12) 0%,rgba(168,85,247,.06) 40%,transparent 70%);transition:opacity 1.2s ease}
+    .scene-bg{background:linear-gradient(160deg,#13202a 0%,#3d2747 34%,#1f6f78 72%,#0f1b22 100%);transition:background 1.2s ease}
+    .scene-bg.light{background:linear-gradient(180deg,#fff9f2 0%,#f7e7dc 52%,#eef5ef 100%)}
+    .scene-glow{background:radial-gradient(ellipse at 50% 50%,rgba(216,91,127,.16) 0%,rgba(31,111,120,.10) 42%,transparent 72%);transition:opacity 1.2s ease}
 
     @keyframes particleDrift{0%{transform:translateY(100vh) translateX(0) scale(0);opacity:0}10%{opacity:1}90%{opacity:.5}100%{transform:translateY(-10vh) translateX(var(--drift)) scale(.3);opacity:0}}
     .particle{position:fixed;bottom:-10px;border-radius:50%;pointer-events:none;z-index:1;animation:particleDrift var(--dur) ease-in-out var(--delay) infinite;transition:opacity .8s ease}
@@ -42,34 +50,37 @@
     @keyframes envelopeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
     .envelope-float{animation:envelopeFloat 4s ease-in-out infinite}
 
-    .envelope-body{background:linear-gradient(145deg,#fef3c7 0%,#fde68a 40%,#fbbf24 100%);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(251,191,36,.2),inset 0 1px 0 rgba(255,255,255,.5)}
-    .envelope-flap{background:linear-gradient(145deg,#f59e0b 0%,#d97706 100%);clip-path:polygon(0 0,50% 75%,100% 0);transform-origin:top center;transition:transform .8s cubic-bezier(.4,0,.2,1),opacity .6s ease .3s}
+    .envelope-body{background:linear-gradient(145deg,#fff9f2 0%,#f4d8a4 45%,#e9b9ae 100%);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(216,91,127,.20),inset 0 1px 0 rgba(255,255,255,.65)}
+    .envelope-flap{background:linear-gradient(145deg,#d85b7f 0%,#8c5f73 58%,#1f6f78 100%);clip-path:polygon(0 0,50% 75%,100% 0);transform-origin:top center;transition:transform .8s cubic-bezier(.4,0,.2,1),opacity .6s ease .3s}
     .envelope-flap.open{transform:rotateX(180deg);opacity:0}
 
-    @keyframes sealPulse{0%,100%{box-shadow:0 0 15px rgba(244,63,94,.4),0 0 30px rgba(244,63,94,.2)}50%{box-shadow:0 0 25px rgba(244,63,94,.7),0 0 50px rgba(244,63,94,.3)}}
+    @keyframes sealPulse{0%,100%{box-shadow:0 0 15px rgba(216,91,127,.42),0 0 30px rgba(31,111,120,.18)}50%{box-shadow:0 0 25px rgba(216,91,127,.72),0 0 50px rgba(31,111,120,.28)}}
     .seal-glow{animation:sealPulse 2s ease-in-out infinite}
 
     @keyframes ringExpand{0%{transform:scale(.8);opacity:.5}100%{transform:scale(2.5);opacity:0}}
-    .ring-ripple{position:absolute;border:1px solid rgba(251,191,36,.25);border-radius:50%;width:220px;height:220px;animation:ringExpand 3s ease-out infinite;pointer-events:none}
+    .ring-ripple{position:absolute;border:1px solid rgba(244,216,164,.28);border-radius:50%;width:220px;height:220px;animation:ringExpand 3s ease-out infinite;pointer-events:none}
 
     @keyframes tapGlow{0%,100%{opacity:.4}50%{opacity:1}}
     @keyframes tapBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
     .tap-glow{animation:tapGlow 2s ease-in-out infinite}
     .tap-bounce{animation:tapBounce 2s ease-in-out infinite}
 
+    #scene{padding:max(24px,env(safe-area-inset-top)) 20px max(24px,env(safe-area-inset-bottom))}
     #envelope-wrapper{transition:all 1.2s cubic-bezier(.4,0,.2,1);transform-origin:center center}
     #envelope-wrapper.shrunk{transform:scale(.35) translateY(-220px);opacity:0;pointer-events:none}
 
-    #letter-card{position:fixed;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%) scale(.3);opacity:0;transition:all 1s cubic-bezier(.2,0,.2,1) .5s;pointer-events:none;max-height:0;overflow:hidden;border-radius:16px}
-    #letter-card.reveal{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto;max-height:92vh;overflow-y:auto;border-radius:16px}
+    #letter-card{position:fixed;z-index:10;left:50%;top:50%;width:min(92vw,520px);transform:translate(-50%,-50%) scale(.3);opacity:0;transition:all 1s cubic-bezier(.2,0,.2,1) .5s;pointer-events:none;max-height:0;overflow:hidden;border:1px solid rgba(111,143,114,.22);border-radius:8px;background:var(--paper);box-shadow:0 24px 90px rgba(43,36,38,.28)}
+    #letter-card>*{width:100%}
+    #letter-card.reveal{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto;max-height:min(92dvh,860px);overflow-y:auto;border-radius:8px}
     #letter-card.expand{transition:all .8s cubic-bezier(.4,0,.2,1) 0s;transform:translate(-50%,-50%) scale(1.05)}
-    #letter-card.fullscreen{transition:all .6s cubic-bezier(.4,0,.2,1) 0s;transform:none;left:0;top:0;right:0;bottom:0;width:100%;height:100%;max-height:100vh;border-radius:0;position:fixed}
+    #letter-card.fullscreen{transition:all .6s cubic-bezier(.4,0,.2,1) 0s;transform:none!important;left:0!important;top:0!important;right:auto;bottom:auto;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border:0;border-radius:0;position:fixed;overflow-x:hidden;overflow-y:auto;display:flex;flex-direction:column;align-items:center;background:linear-gradient(180deg,var(--paper) 0%,var(--paper-soft) 54%,#eef5ef 100%);box-shadow:none;overscroll-behavior:contain}
+    #letter-card.fullscreen>*{width:100%;max-width:640px;flex:0 0 auto}
 
     @keyframes fadeInUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
     @keyframes scaleIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
     @keyframes stampSlide{from{opacity:0;transform:rotate(-15deg) scale(2)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
     @keyframes cakeWiggle{0%,100%{transform:scale(1) rotate(0)}25%{transform:scale(1.06) rotate(-2deg)}75%{transform:scale(1.06) rotate(2deg)}}
-    @keyframes candleFlicker{0%,100%{transform:scaleY(1) scJosh(1);opacity:1}25%{transform:scaleY(1.15) scJosh(.85);opacity:.8}50%{transform:scaleY(.9) scJosh(1.1);opacity:1}75%{transform:scaleY(1.1) scJosh(.9);opacity:.85}}
+    @keyframes candleFlicker{0%,100%{transform:scaleY(1) scaleX(1);opacity:1}25%{transform:scaleY(1.15) scaleX(.85);opacity:.8}50%{transform:scaleY(.9) scaleX(1.1);opacity:1}75%{transform:scaleY(1.1) scaleX(.9);opacity:.85}}
     @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
     @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
     @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0deg) scale(1);opacity:1}80%{opacity:.7}100%{transform:translateY(100vh) rotate(720deg) scale(.4);opacity:0}}
@@ -80,23 +91,58 @@
     .anim-stamp{opacity:0;animation:stampSlide .4s ease-out forwards}
     .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.35s}.d4{animation-delay:.5s}.d5{animation-delay:.65s}.d6{animation-delay:.8s}.d7{animation-delay:.95s}.d8{animation-delay:1.1s}.d10{animation-delay:1.3s}.d12{animation-delay:1.5s}.d15{animation-delay:1.8s}.d18{animation-delay:2.1s}.d20{animation-delay:2.4s}.d25{animation-delay:2.8s}
 
-    .shimmer-text{background:linear-gradient(90deg,#b45309 0%,#d97706 25%,#fbbf24 50%,#d97706 75%,#b45309 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+    .shimmer-text{background:linear-gradient(90deg,#7c2d4d 0%,#d85b7f 28%,#f4d8a4 50%,#1f6f78 72%,#7c2d4d 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
 
-    .letter-lines{background-image:repeating-linear-gradient(transparent,transparent 29px,rgba(251,191,36,.05) 29px,rgba(251,191,36,.05) 30px);background-position:0 18px}
-    .paper-bg{background:linear-gradient(180deg,#fffbeb 0%,#fffef7 30%,#fefce8 100%)}
+    .letter-lines{background-image:repeating-linear-gradient(transparent,transparent 29px,rgba(111,143,114,.10) 29px,rgba(111,143,114,.10) 30px);background-position:0 18px}
+    .paper-bg{background:linear-gradient(180deg,#fff9f2 0%,#fffdfa 34%,#f7e7dc 100%)}
     .confetti-piece{position:fixed;top:-10px;z-index:200;pointer-events:none;border-radius:2px}
     .heart-float{position:fixed;pointer-events:none;z-index:190;animation:heartRise 1.8s ease-out forwards}
-    .photo-glow{box-shadow:0 8px 40px rgba(251,191,36,.15),0 2px 15px rgba(0,0,0,.1)}
-    .wish-bg{background:linear-gradient(135deg,#1a0a2e 0%,#2d1b4e 50%,#1e1145 100%)}
+    .photo-glow{box-shadow:0 18px 45px rgba(31,111,120,.18),0 2px 15px rgba(0,0,0,.08)}
+    .wish-bg{background:linear-gradient(135deg,#13202a 0%,#3d2747 44%,#1f6f78 100%);border:1px solid rgba(244,216,164,.18)}
+    .wish-bg::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.06) 45%,transparent 70%);pointer-events:none}
     .tap-area{transition:opacity .5s ease}
     .tap-area.hide{opacity:0;pointer-events:none}
 
-    .letter-italic{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;letter-spacing:.01em}
+    .letter-italic{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;letter-spacing:0}
     .letter-italic em{font-style:normal;font-weight:600}
 
-    .photo-frame{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:16px;background:#fef3c7}
+    .photo-frame{position:relative;width:min(100%,430px);margin-inline:auto;aspect-ratio:3/4;overflow:hidden;border-radius:8px;background:#f7e7dc}
     .photo-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;opacity:0;transition:opacity .5s ease}
     .photo-frame img.loaded{opacity:1}
+    .birthday-title{font-size:clamp(46px,15vw,72px)}
+    .paper-top-accent{background:linear-gradient(90deg,#1f6f78 0%,#6f8f72 28%,#f4d8a4 50%,#d85b7f 72%,#3d2747 100%)}
+    .flower-sprig{position:absolute;left:22px;top:26px;width:58px;height:72px;opacity:.86;pointer-events:none;transform-origin:50% 100%;animation:flowerSway 5s ease-in-out infinite}
+    .flower-stem{position:absolute;left:28px;top:26px;width:2px;height:43px;border-radius:999px;background:linear-gradient(180deg,#6f8f72,#1f6f78);transform:rotate(8deg);transform-origin:bottom}
+    .flower-leaf{position:absolute;width:18px;height:9px;border-radius:999px 0 999px 0;background:linear-gradient(135deg,#8bbf8c,#6f8f72);opacity:.86}
+    .flower-leaf.one{left:29px;top:45px;transform:rotate(-18deg)}
+    .flower-leaf.two{left:13px;top:53px;transform:scaleX(-1) rotate(-22deg)}
+    .flower-bloom{position:absolute;left:14px;top:1px;width:34px;height:34px}
+    .flower-bloom span{position:absolute;left:12px;top:7px;width:10px;height:17px;border-radius:999px 999px 7px 7px;background:linear-gradient(180deg,#f7b7c8,#d85b7f);transform-origin:50% 100%}
+    .flower-bloom span:nth-child(1){transform:rotate(0deg) translateY(-7px)}
+    .flower-bloom span:nth-child(2){transform:rotate(72deg) translateY(-7px)}
+    .flower-bloom span:nth-child(3){transform:rotate(144deg) translateY(-7px)}
+    .flower-bloom span:nth-child(4){transform:rotate(216deg) translateY(-7px)}
+    .flower-bloom span:nth-child(5){transform:rotate(288deg) translateY(-7px)}
+    .flower-center{position:absolute;left:13px;top:15px;width:8px;height:8px;border-radius:50%;background:#f4d8a4;box-shadow:0 0 0 2px rgba(255,249,242,.72)}
+    @keyframes flowerSway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(-4deg) translateY(-2px)}}
+
+    @media (min-width:768px){
+      #letter-card.fullscreen{padding:28px 0}
+      #letter-card.fullscreen>*{box-shadow:0 1px 0 rgba(31,111,120,.05)}
+      .letter-lines{font-size:18px;line-height:34px}
+    }
+
+    @media (max-width:380px){
+      #envelope-wrapper{transform:scale(.92)}
+      #envelope-wrapper.shrunk{transform:scale(.3) translateY(-220px)}
+      .letter-lines{font-size:15px;line-height:29px}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+      .particle,.ring-ripple{display:none}
+      #letter-card{transition:none!important}
+    }
   </style>
 </head>
 <body class="min-h-screen overflow-x-hidden">
@@ -107,14 +153,14 @@
   <div id="scene" class="scene-bg fixed inset-0 flex flex-col items-center justify-center overflow-hidden">
     <div id="scene-glow" class="scene-glow fixed inset-0 pointer-events:none"></div>
 
-    <div class="particle w-1.5 h-1.5 bg-amber-400/60" style="left:12%;--dur:8s;--delay:0s;--drift:30px"></div>
-    <div class="particle w-1 h-1 bg-purple-400/50" style="left:28%;--dur:10s;--delay:1s;--drift:-20px"></div>
-    <div class="particle w-2 h-2 bg-amber-300/40" style="left:48%;--dur:7s;--delay:2s;--drift:40px"></div>
-    <div class="particle w-1 h-1 bg-rose-400/50" style="left:68%;--dur:9s;--delay:.5s;--drift:-35px"></div>
-    <div class="particle w-1.5 h-1.5 bg-amber-400/40" style="left:82%;--dur:11s;--delay:3s;--drift:25px"></div>
-    <div class="particle w-1 h-1 bg-purple-300/40" style="left:8%;--dur:12s;--delay:4s;--drift:-15px"></div>
-    <div class="particle w-1 h-1 bg-yellow-300/50" style="left:58%;--dur:8.5s;--delay:1.5s;--drift:50px"></div>
-    <div class="particle w-0.5 h-0.5 bg-rose-300/60" style="left:38%;--dur:6s;--delay:2.5s;--drift:-40px"></div>
+    <div class="particle w-1.5 h-1.5 bg-fuchsia-200/60" style="left:12%;--dur:8s;--delay:0s;--drift:30px"></div>
+    <div class="particle w-1 h-1 bg-teal-300/50" style="left:28%;--dur:10s;--delay:1s;--drift:-20px"></div>
+    <div class="particle w-2 h-2 bg-emerald-200/40" style="left:48%;--dur:7s;--delay:2s;--drift:40px"></div>
+    <div class="particle w-1 h-1 bg-pink-300/50" style="left:68%;--dur:9s;--delay:.5s;--drift:-35px"></div>
+    <div class="particle w-1.5 h-1.5 bg-sky-200/40" style="left:82%;--dur:11s;--delay:3s;--drift:25px"></div>
+    <div class="particle w-1 h-1 bg-violet-200/40" style="left:8%;--dur:12s;--delay:4s;--drift:-15px"></div>
+    <div class="particle w-1 h-1 bg-lime-200/50" style="left:58%;--dur:8.5s;--delay:1.5s;--drift:50px"></div>
+    <div class="particle w-0.5 h-0.5 bg-fuchsia-200/60" style="left:38%;--dur:6s;--delay:2.5s;--drift:-40px"></div>
 
     <div class="absolute inset-0 flex items-center justify-center pointer-events-none" id="rings">
       <div class="ring-ripple" style="animation-delay:0s"></div>
@@ -123,74 +169,85 @@
     </div>
 
     <div id="top-label" class="relative mb-8 anim-fiu d1 z-10">
-      <p class="text-amber-200/50 text-[10px] uppercase tracking-[0.35em] font-medium font-sans">You've received a letter</p>
+      <p class="text-rose-100/60 text-[10px] uppercase tracking-[0.35em] font-medium font-sans">You've received a letter from Josh</p>
     </div>
 
     <!-- ENVELOPE -->
-    <div id="envelope-wrapper" class="envelope-float relative z-20 cursor-pointer active:scale-95 transition-transform duration-200" onclick="openEnvelope()" style="width:280px;height:195px">
-      <div class="absolute top-10 left-5 right-5 h-[145px] rounded-sm shadow-inner border border-amber-100/50" style="background:linear-gradient(to bottom,#fffbeb,#fef3c7)"></div>
+    <div id="envelope-wrapper" class="envelope-float relative z-20 cursor-pointer active:scale-95 transition-transform duration-200" role="button" tabindex="0" aria-controls="letter-card" aria-expanded="false" aria-label="Open Julia's birthday letter" onclick="openEnvelope()" style="width:280px;height:195px">
+      <div class="absolute top-10 left-5 right-5 h-[145px] rounded-sm shadow-inner border border-rose-100/60" style="background:linear-gradient(to bottom,#fff9f2,#f7e7dc)"></div>
       <div class="absolute bottom-0 left-0 right-0 h-[158px] envelope-body rounded-xl"></div>
       <div id="envelope-flap" class="envelope-flap absolute top-0 left-0 right-0 h-[100px] z-10 rounded-t-xl"></div>
-      <div class="absolute top-[55px] left-1/2 -translate-x-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center seal-glow" style="background:linear-gradient(135deg,#1a0a2e,#2d1b4e);border:2px solid rgba(251,191,36,.4)">
-        <span class="text-rose-400 text-xl">&#9829;</span>
+      <div class="absolute top-[55px] left-1/2 -translate-x-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center seal-glow" style="background:linear-gradient(135deg,#13202a,#3d2747 55%,#1f6f78);border:2px solid rgba(244,216,164,.45)">
+        <span class="text-rose-300 text-xl">&#9829;</span>
       </div>
       <div class="absolute bottom-0 left-4 right-4 h-3 rounded-b-xl" style="background:linear-gradient(to top,rgba(0,0,0,.15),transparent)"></div>
     </div>
 
     <div id="tap-area" class="tap-area relative mt-10 flex flex-col items-center tap-bounce z-10">
-      <div class="w-10 h-10 rounded-full border border-amber-400/20 flex items-center justify-center mb-3 tap-glow">
-        <span class="iconify text-amber-300/70 text-lg" data-icon="lucide:hand"></span>
+      <div class="w-10 h-10 rounded-full border border-teal-200/30 flex items-center justify-center mb-3 tap-glow">
+        <span class="iconify text-teal-100/75 text-lg" data-icon="lucide:hand"></span>
       </div>
-      <p class="text-amber-200/40 text-xs tracking-[0.2em] uppercase tap-glow font-sans">tap to open</p>
+      <p class="text-rose-100/45 text-xs tracking-[0.2em] uppercase tap-glow font-sans">tap to open</p>
     </div>
   </div>
 
   <!-- LETTER CARD -->
-  <div id="letter-card">
+  <div id="letter-card" tabindex="-1" aria-hidden="true" aria-label="Birthday letter for Julia">
     <div class="h-1.5 relative overflow-hidden flex-shrink-0">
-      <div class="absolute inset-0 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300"></div>
+      <div class="absolute inset-0 paper-top-accent"></div>
     </div>
 
     <div class="paper-bg relative px-6 pt-12 pb-8 text-center overflow-hidden flex-shrink-0">
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl"></div>
+      <div class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/35 to-transparent"></div>
+      <div class="flower-sprig anim-si d5" aria-hidden="true">
+        <div class="flower-bloom">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <div class="flower-center"></div>
+        </div>
+        <div class="flower-stem"></div>
+        <div class="flower-leaf one"></div>
+        <div class="flower-leaf two"></div>
+      </div>
       <div class="relative anim-si d2 inline-block" style="animation:cakeWiggle 3s ease-in-out .3s infinite">
         <div class="text-6xl mb-1 relative">&#127874;</div>
         <div class="absolute -top-2 left-1/2 -translate-x-1/2">
-          <div class="w-3.5 h-4.5 rounded-full blur-[0.5px]" style="background:radial-gradient(ellipse at bottom,#fbbf24 0%,#f97316 50%,transparent 100%);animation:candleFlicker .7s ease-in-out infinite"></div>
+          <div class="w-3.5 h-4.5 rounded-full blur-[0.5px]" style="background:radial-gradient(ellipse at bottom,#f4d8a4 0%,#d85b7f 48%,transparent 100%);animation:candleFlicker .7s ease-in-out infinite"></div>
         </div>
       </div>
 
-      <h1 class="relative font-display text-[50px] font-medium italic text-stone-800 tracking-tight leading-[.95] mt-4 anim-fiu d3">Happy</h1>
-      <h1 class="relative font-display text-[50px] font-semibold italic tracking-tight leading-[.95] mt-0.5 anim-fiu d4 shimmer-text">Birthday</h1>
-
+      <h1 class="birthday-title relative font-display font-medium italic text-stone-900 tracking-normal leading-[.95] mt-4 anim-fiu d3">Happy Birthday!</h1>
       <!-- EDIT NAME -->
       <div class="relative mt-4 anim-fiu d6">
-        <p class="font-display text-[22px] italic text-amber-900/60 font-medium">Dearest Julia,</p>
+        <p class="font-display text-[22px] italic text-rose-900/65 font-medium">Dearest Julia,</p>
         <div class="mt-2.5 flex items-center justify-center gap-2">
-          <div class="w-10 h-px bg-amber-300/30"></div>
-          <span class="text-amber-400/60 text-xs">&#10022;</span>
-          <div class="w-10 h-px bg-amber-300/30"></div>
+          <div class="w-10 h-px bg-teal-300/30"></div>
+          <span class="text-rose-400/60 text-xs">&#10022;</span>
+          <div class="w-10 h-px bg-teal-300/30"></div>
         </div>
       </div>
 
       <div class="absolute top-4 right-4 anim-stamp d15">
-        <div class="w-12 h-14 border-2 border-dashed border-amber-400/40 rounded-sm flex items-center justify-center" style="transform:rotate(-12deg)">
+        <div class="w-12 h-14 border-2 border-dashed border-rose-300/50 rounded-sm flex items-center justify-center" style="transform:rotate(-12deg)">
           <div class="text-center">
-            <span class="text-[9px] font-semibold text-amber-600 tracking-wider block font-sans">LOVE</span>
-            <span class="text-amber-400 text-xs">&#9829;</span>
+            <span class="text-[9px] font-semibold text-teal-700 tracking-wider block font-sans">LOVE</span>
+            <span class="text-rose-400 text-xs">&#9829;</span>
           </div>
         </div>
       </div>
     </div>
 
     <div class="paper-bg flex items-center justify-center gap-3 py-2 flex-shrink-0">
-      <div class="w-14 h-px bg-gradient-to-r from-transparent to-amber-300/30"></div>
-      <span class="text-amber-400/40 text-[10px]">&#10087;</span>
-      <div class="w-14 h-px bg-gradient-to-l from-transparent to-amber-300/30"></div>
+      <div class="w-14 h-px bg-gradient-to-r from-transparent to-teal-300/30"></div>
+      <span class="text-rose-400/45 text-[10px]">&#10087;</span>
+      <div class="w-14 h-px bg-gradient-to-l from-transparent to-teal-300/30"></div>
     </div>
 
     <div class="paper-bg relative px-7 pt-6 pb-10 flex-shrink-0">
-      <div class="letter-lines leading-[30px] text-stone-500 text-[15.5px] space-y-5">
+      <div class="letter-lines leading-[30px] text-stone-600 text-[15.5px] space-y-5">
         <!-- EDIT YOUR MESSAGE -->
         <p class="letter-italic anim-fiu d6">Today is <em>your</em> day, and I couldn't let it pass without telling you how much you mean to me.</p>
         <p class="letter-italic anim-fiu d7">You have this incredible way of making everyone around you feel seen and loved. Your laugh is contagious, your kindness is endless, and your strength inspires me more than you'll ever know.</p>
@@ -201,66 +258,65 @@
     </div>
 
     <div class="paper-bg px-7 pb-12 text-right anim-fiu d15 flex-shrink-0">
-      <p class="font-display text-[22px] italic text-stone-500">With all my love,</p>
+      <p class="font-display text-[22px] italic text-stone-600">With all my love,</p>
       <!-- EDIT YOUR NAME -->
-      <p class="font-display text-[26px] italic text-amber-900 font-semibold mt-1">Josh &#10084;</p>
+      <p class="font-display text-[26px] italic text-rose-900 font-semibold mt-1">Josh &#10084;</p>
     </div>
 
     <!-- PHOTO -->
     <div class="px-6 pb-8 flex-shrink-0">
-      <p class="text-center text-amber-700/30 text-[10px] uppercase tracking-[0.3em] mb-4 anim-fiu d18 font-sans">a little memory</p>
+      <p class="text-center text-teal-700/40 text-[10px] uppercase tracking-[0.3em] mb-4 anim-fiu d18 font-sans">a little memory</p>
       <div class="photo-frame photo-glow anim-si d20">
         <!-- REPLACE THIS SRC -->
-        <img src="img/pic.jpg" alt="Memory" onload="this.classList.add('loaded')">
-        <div class="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent z-10"></div>
+        <img src="img/pic.jpg" alt="A favorite memory with Julia" onload="this.classList.add('loaded')">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent z-10"></div>
         <p class="absolute bottom-4 left-4 right-4 text-white/80 text-sm font-light leading-relaxed z-20" style="font-family:'Playfair Display',serif;font-style:italic">"Some people make the world a little more beautiful just by being in it."</p>
-        <div class="absolute top-3 right-3 w-5 h-5 border-t border-r border-amber-400/30 rounded-tr-lg z-20"></div>
-        <div class="absolute bottom-3 left-3 w-5 h-5 border-b border-l border-amber-400/30 rounded-bl-lg z-20"></div>
+        <div class="absolute top-3 right-3 w-5 h-5 border-t border-r border-rose-300/40 rounded-tr-lg z-20"></div>
+        <div class="absolute bottom-3 left-3 w-5 h-5 border-b border-l border-rose-300/40 rounded-bl-lg z-20"></div>
       </div>
     </div>
 
     <div class="px-6 pb-6 flex-shrink-0">
-      <div class="wish-bg rounded-2xl p-6 text-center relative overflow-hidden anim-fiu d25">
-        <div class="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-28 h-28 bg-purple-500/10 rounded-full blur-3xl"></div>
-        <p class="text-amber-300/50 text-[10px] uppercase tracking-[0.3em] mb-3 relative font-sans">make a wish</p>
+      <div class="wish-bg rounded-lg p-6 text-center relative overflow-hidden anim-fiu d25">
+        <p class="text-rose-100/60 text-[10px] uppercase tracking-[0.3em] mb-3 relative font-sans">make a wish</p>
         <div class="relative text-3xl mb-3" style="animation:float 3s ease-in-out infinite">&#127775;</div>
-        <p class="text-stone-400 text-sm font-light leading-relaxed relative" style="font-family:'Playfair Display',serif;font-style:italic">Close your eyes, take a deep breath, and wish for anything your heart desires.</p>
+        <p class="text-rose-50/75 text-sm font-light leading-relaxed relative" style="font-family:'Playfair Display',serif;font-style:italic">Close your eyes, take a deep breath, and wish for anything your heart desires.</p>
         <div class="mt-4 flex items-center justify-center gap-2 relative">
-          <div class="w-5 h-px bg-amber-500/20"></div>
-          <span class="text-amber-500/30 text-xs">&#10022;</span>
-          <div class="w-5 h-px bg-amber-500/20"></div>
+          <div class="w-5 h-px bg-teal-200/25"></div>
+          <span class="text-rose-100/45 text-xs">&#10022;</span>
+          <div class="w-5 h-px bg-teal-200/25"></div>
         </div>
       </div>
     </div>
 
     <div class="flex flex-col items-center py-6 flex-shrink-0">
-      <button onclick="sendHearts(event)" class="group relative px-10 py-3.5 rounded-full text-sm font-medium transition-all duration-300 active:scale-90 overflow-hidden" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 8px 30px rgba(245,158,11,.3);font-family:'Playfair Display',serif;font-style:italic;letter-spacing:.03em">
+      <button type="button" aria-label="Send love" onclick="sendHearts(event)" class="group relative px-10 py-3.5 rounded-full text-sm font-medium transition-all duration-300 active:scale-90 overflow-hidden" style="background:linear-gradient(135deg,#d85b7f,#1f6f78);box-shadow:0 8px 30px rgba(216,91,127,.24),0 10px 26px rgba(31,111,120,.18);font-family:'Playfair Display',serif;font-style:italic;letter-spacing:.03em">
         <span class="relative flex items-center gap-2.5 text-white">
-          <span class="text-rose-200 group-active:scale-125 transition-transform">&#9829;</span>
+          <span class="text-rose-100 group-active:scale-125 transition-transform">&#9829;</span>
           Send Love
         </span>
       </button>
-      <p class="text-amber-700/20 text-[10px] mt-2.5 tracking-wider font-sans">tap as many times as you want</p>
+      <p class="text-teal-800/30 text-[10px] mt-2.5 tracking-wider font-sans">tap as many times as you want</p>
     </div>
 
     <div class="text-center pb-10 px-6 flex-shrink-0">
       <div class="flex items-center justify-center gap-3 mb-4">
-        <div class="w-10 h-px bg-gradient-to-r from-transparent to-amber-400/20"></div>
-        <span class="text-amber-500/20 text-sm">&#10022;</span>
-        <div class="w-10 h-px bg-gradient-to-l from-transparent to-amber-400/20"></div>
+        <div class="w-10 h-px bg-gradient-to-r from-transparent to-rose-300/25"></div>
+        <span class="text-teal-700/25 text-sm">&#10022;</span>
+        <div class="w-10 h-px bg-gradient-to-l from-transparent to-rose-300/25"></div>
       </div>
-      <p class="font-display text-amber-800/30 text-[22px] italic leading-relaxed">Happy Birthday,<br>beautiful soul</p>
-      <p class="text-amber-700/20 text-[10px] mt-3 tracking-wider uppercase font-sans">made with love, just for you</p>
+      <p class="font-display text-rose-900/35 text-[22px] italic leading-relaxed">Happy Birthday,<br>beautiful soul</p>
+      <p class="text-teal-800/30 text-[10px] mt-3 tracking-wider uppercase font-sans">made with love, just for you</p>
     </div>
 
     <div class="h-1.5 relative overflow-hidden flex-shrink-0">
-      <div class="absolute inset-0 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300"></div>
+      <div class="absolute inset-0 paper-top-accent"></div>
     </div>
   </div>
 
   <script>
     var opened = false;
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function openEnvelope() {
       if (opened) return;
@@ -276,6 +332,9 @@
       var glow = document.getElementById("scene-glow");
       var parts = document.querySelectorAll(".particle");
 
+      env.setAttribute("aria-expanded", "true");
+      card.setAttribute("aria-hidden", "false");
+      document.body.classList.add("letter-open");
       flap.classList.add("open");
 
       setTimeout(function() {
@@ -310,13 +369,15 @@
         setTimeout(function() {
           scene.style.display = "none";
         }, 800);
-        document.body.style.background = "linear-gradient(180deg, #fffbeb 0%, #fef3c7 50%, #fefce8 100%)";
+        document.body.style.background = "linear-gradient(180deg, #fff9f2 0%, #f7e7dc 54%, #eef5ef 100%)";
+        try { card.focus({ preventScroll: true }); } catch (err) { card.focus(); }
       }, 2200);
     }
 
     function launchConfetti() {
+      if (reduceMotion) return;
       var c = document.getElementById("confetti-container");
-      var colors = ["#f59e0b","#fbbf24","#fcd34d","#fb923c","#f87171","#c084fc","#34d399","#f472b6","#60a5fa","#facc15"];
+      var colors = ["#d85b7f","#f4d8a4","#6f8f72","#1f6f78","#3d2747","#e9b9ae","#8bb7a2","#f0a6b5","#72a6b3","#fff1c7"];
       var shapes = ["\u25A0","\u25CF","\u25B2","\u2726","\u2665","\u2605","\u25C6"];
 
       for (var i = 0; i < 55; i++) {
@@ -337,6 +398,7 @@
     }
 
     function sendHearts(e) {
+      if (reduceMotion) return;
       var hearts = ["\u2764\uFE0F","\uD83D\uDC9B","\uD83D\uDC96","\uD83D\uDC97","\u2728","\uD83D\uDC95","\u2665"];
       var btn = e.currentTarget;
       var rect = btn.getBoundingClientRect();
@@ -363,24 +425,42 @@
       setTimeout(function() { btn.style.transform = "scale(1)"; }, 150);
     }
 
-    var obs = new IntersectionObserver(function(entries) {
-      for (var i = 0; i < entries.length; i++) {
-        if (entries[i].isIntersecting) {
-          entries[i].target.style.animationPlayState = "running";
-        }
-      }
-    }, { threshold: 0.1 });
-
     var animEls = document.querySelectorAll(".anim-fiu,.anim-si,.anim-stamp");
-    for (var j = 0; j < animEls.length; j++) {
-      (function(el) {
-        var st = getComputedStyle(el);
-        var d = parseFloat(st.animationDelay) || 0;
-        if (d >= 1.5) {
-          el.style.animationPlayState = "paused";
-          obs.observe(el);
+
+    if ("IntersectionObserver" in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) {
+            entries[i].target.style.animationPlayState = "running";
+            obs.unobserve(entries[i].target);
+          }
         }
-      })(animEls[j]);
+      }, { threshold: 0.1 });
+
+      for (var j = 0; j < animEls.length; j++) {
+        (function(el) {
+          var st = getComputedStyle(el);
+          var d = parseFloat(st.animationDelay) || 0;
+          if (d >= 1.5) {
+            el.style.animationPlayState = "paused";
+            obs.observe(el);
+          }
+        })(animEls[j]);
+      }
+    } else {
+      for (var k = 0; k < animEls.length; k++) {
+        animEls[k].style.animationPlayState = "running";
+      }
+    }
+
+    var envelopeButton = document.getElementById("envelope-wrapper");
+    if (envelopeButton) {
+      envelopeButton.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openEnvelope();
+        }
+      });
     }
   </script>
 </body>
