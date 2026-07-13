@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
   <script>
     tailwind.config = {
       theme: {
@@ -126,6 +127,22 @@
     .flower-center{position:absolute;left:13px;top:15px;width:8px;height:8px;border-radius:50%;background:#f4d8a4;box-shadow:0 0 0 2px rgba(255,249,242,.72)}
     @keyframes flowerSway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(-4deg) translateY(-2px)}}
 
+    /* Header collage */
+    .header-collage{position:relative;height:106px;margin:0 auto 6px;max-width:320px}
+    .collage-photo{position:absolute;width:94px;height:94px;border-radius:6px;overflow:hidden;background:#f0e0d2;border:4px solid #fffdfa;box-shadow:0 8px 22px rgba(43,36,38,.22)}
+    .collage-photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s ease}
+    .collage-photo img.loaded{opacity:1}
+    .collage-photo.p1{left:2px;top:8px;transform:rotate(-9deg);z-index:1}
+    .collage-photo.p2{left:50%;top:-4px;transform:translateX(-50%) rotate(3deg);z-index:3}
+    .collage-photo.p3{right:2px;top:12px;transform:rotate(10deg);z-index:2}
+
+    /* Memory grid */
+    .memory-grid{display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:1fr 1fr;gap:8px;width:min(100%,430px);margin-inline:auto;aspect-ratio:3/2.1}
+    .memory-grid .mg-item{position:relative;overflow:hidden;border-radius:8px;background:#f7e7dc}
+    .memory-grid .mg-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s ease}
+    .memory-grid .mg-item img.loaded{opacity:1}
+    .memory-grid .mg-big{grid-row:1 / span 2}
+
     @media (min-width:768px){
       #letter-card.fullscreen{padding:28px 0}
       #letter-card.fullscreen>*{box-shadow:0 1px 0 rgba(31,111,120,.05)}
@@ -197,7 +214,7 @@
       <div class="absolute inset-0 paper-top-accent"></div>
     </div>
 
-    <div class="paper-bg relative px-6 pt-12 pb-8 text-center overflow-hidden flex-shrink-0">
+    <div class="paper-bg relative px-6 pt-10 pb-8 text-center overflow-hidden flex-shrink-0">
       <div class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/35 to-transparent"></div>
       <div class="flower-sprig anim-si d5" aria-hidden="true">
         <div class="flower-bloom">
@@ -212,6 +229,15 @@
         <div class="flower-leaf one"></div>
         <div class="flower-leaf two"></div>
       </div>
+
+      <!-- PHOTO COLLAGE (behind headline) -->
+      <div class="header-collage anim-si d1" aria-hidden="false">
+        <!-- REPLACE THESE 3 SRCs with your own photos of Julia -->
+        <div class="collage-photo p1"><img src="img/pic1.jpg" alt="Julia, memory one" onload="this.classList.add('loaded')"></div>
+        <div class="collage-photo p2"><img src="img/pic2.jpg" alt="Julia, memory two" onload="this.classList.add('loaded')"></div>
+        <div class="collage-photo p3"><img src="img/pic3.jpg" alt="Julia, memory three" onload="this.classList.add('loaded')"></div>
+      </div>
+
       <div class="relative anim-si d2 inline-block" style="animation:cakeWiggle 3s ease-in-out .3s infinite">
         <div class="text-6xl mb-1 relative">&#127874;</div>
         <div class="absolute -top-2 left-1/2 -translate-x-1/2">
@@ -263,17 +289,16 @@
       <p class="font-display text-[26px] italic text-rose-900 font-semibold mt-1">Josh &#10084;</p>
     </div>
 
-    <!-- PHOTO -->
+    <!-- PHOTO MEMORY GRID (collage of multiple pics) -->
     <div class="px-6 pb-8 flex-shrink-0">
-      <p class="text-center text-teal-700/40 text-[10px] uppercase tracking-[0.3em] mb-4 anim-fiu d18 font-sans">a little memory</p>
-      <div class="photo-frame photo-glow anim-si d20">
-        <!-- REPLACE THIS SRC -->
-        <img src="img/pic.jpg" alt="A favorite memory with Julia" onload="this.classList.add('loaded')">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent z-10"></div>
-        <p class="absolute bottom-4 left-4 right-4 text-white/80 text-sm font-light leading-relaxed z-20" style="font-family:'Playfair Display',serif;font-style:italic">"Some people make the world a little more beautiful just by being in it."</p>
-        <div class="absolute top-3 right-3 w-5 h-5 border-t border-r border-rose-300/40 rounded-tr-lg z-20"></div>
-        <div class="absolute bottom-3 left-3 w-5 h-5 border-b border-l border-rose-300/40 rounded-bl-lg z-20"></div>
+      <p class="text-center text-teal-700/40 text-[10px] uppercase tracking-[0.3em] mb-4 anim-fiu d18 font-sans">a few little memories</p>
+      <div class="memory-grid anim-si d20 photo-glow">
+        <!-- REPLACE THESE SRCs with your own photos of Julia -->
+        <div class="mg-item mg-big"><img src="img/pic.jpg" alt="A favorite memory with Julia" onload="this.classList.add('loaded')"></div>
+        <div class="mg-item"><img src="img/pic4.jpg" alt="Another memory with Julia" onload="this.classList.add('loaded')"></div>
+        <div class="mg-item"><img src="img/pic5.jpg" alt="Another memory with Julia" onload="this.classList.add('loaded')"></div>
       </div>
+      <p class="text-center text-stone-500/70 text-sm font-light leading-relaxed mt-4 px-4" style="font-family:'Playfair Display',serif;font-style:italic">"Some people make the world a little more beautiful just by being in it."</p>
     </div>
 
     <div class="px-6 pb-6 flex-shrink-0">
