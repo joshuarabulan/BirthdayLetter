@@ -86,6 +86,9 @@
     @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
     @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0deg) scale(1);opacity:1}80%{opacity:.7}100%{transform:translateY(100vh) rotate(720deg) scale(.4);opacity:0}}
     @keyframes heartRise{0%{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}100%{opacity:0;transform:translateY(-80px) scale(.3) rotate(var(--rot))}}
+    @keyframes drawLine{from{stroke-dashoffset:60}to{stroke-dashoffset:0}}
+    @keyframes dotPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.3)}}
+    @keyframes leafDrift{0%,100%{transform:rotate(var(--lr)) translateY(0)}50%{transform:rotate(calc(var(--lr) + 3deg)) translateY(-2px)}}
 
     .anim-fiu{opacity:0;animation:fadeInUp .8s ease-out forwards}
     .anim-si{opacity:0;animation:scaleIn .6s ease-out forwards}
@@ -112,6 +115,8 @@
     .photo-frame img.loaded{opacity:1}
     .birthday-title{font-size:clamp(46px,15vw,72px)}
     .paper-top-accent{background:linear-gradient(90deg,#1f6f78 0%,#6f8f72 28%,#f4d8a4 50%,#d85b7f 72%,#3d2747 100%)}
+
+    /* ── Flowers ── */
     .flower-sprig{position:absolute;left:22px;top:26px;width:58px;height:72px;opacity:.86;pointer-events:none;transform-origin:50% 100%;animation:flowerSway 5s ease-in-out infinite}
     .flower-stem{position:absolute;left:28px;top:26px;width:2px;height:43px;border-radius:999px;background:linear-gradient(180deg,#6f8f72,#1f6f78);transform:rotate(8deg);transform-origin:bottom}
     .flower-leaf{position:absolute;width:18px;height:9px;border-radius:999px 0 999px 0;background:linear-gradient(135deg,#8bbf8c,#6f8f72);opacity:.86}
@@ -126,6 +131,44 @@
     .flower-bloom span:nth-child(5){transform:rotate(288deg) translateY(-7px)}
     .flower-center{position:absolute;left:13px;top:15px;width:8px;height:8px;border-radius:50%;background:#f4d8a4;box-shadow:0 0 0 2px rgba(255,249,242,.72)}
     @keyframes flowerSway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(-4deg) translateY(-2px)}}
+
+    /* Flower 2 — top right */
+    .flower-sprig.f2{right:20px;left:auto;top:22px;transform-origin:50% 100%;animation:flowerSway2 6s ease-in-out infinite}
+    .flower-sprig.f2 .flower-bloom span{background:linear-gradient(180deg,#f0c6d4,#c74b6f)}
+    @keyframes flowerSway2{0%,100%{transform:rotate(7deg)}50%{transform:rotate(3deg) translateY(-2px)}}
+
+    /* Flower 3 — lower left */
+    .flower-sprig.f3{left:10px;top:130px;transform-origin:50% 100%;animation:flowerSway3 7s ease-in-out infinite}
+    .flower-sprig.f3 .flower-bloom span{background:linear-gradient(180deg,#f9d4e0,#e06f8a)}
+    @keyframes flowerSway3{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(-10deg) translateY(-3px)}}
+
+    /* Flower 4 — lower right */
+    .flower-sprig.f4{right:12px;left:auto;top:125px;transform-origin:50% 100%;animation:flowerSway4 5.5s ease-in-out infinite}
+    .flower-sprig.f4 .flower-bloom span{background:linear-gradient(180deg,#f7c1d1,#d4637e)}
+    .flower-sprig.f4 .flower-leaf{background:linear-gradient(135deg,#7db87f,#5a7d5c)}
+    @keyframes flowerSway4{0%,100%{transform:rotate(8deg)}50%{transform:rotate(4deg) translateY(-1px)}}
+
+    /* ── Minimal Design Elements ── */
+    .min-branch{position:absolute;pointer-events:none;opacity:.18}
+    .min-branch svg{width:100%;height:100%}
+    .min-branch svg path,.min-branch svg line{stroke-dasharray:60;stroke-dashoffset:60;animation:drawLine 2.5s ease-out forwards}
+    .min-branch svg line:nth-child(2){animation-delay:.3s}
+    .min-branch svg line:nth-child(3){animation-delay:.5s}
+    .min-branch svg line:nth-child(4){animation-delay:.7s}
+
+    .min-dot{position:absolute;width:3px;height:3px;border-radius:50%;pointer-events:none;animation:dotPulse 3s ease-in-out infinite}
+
+    .min-leaf{position:absolute;pointer-events:none;opacity:.22;--lr:0deg;animation:leafDrift 6s ease-in-out infinite}
+    .min-leaf svg path{fill:var(--sage)}
+
+    .min-corner{position:absolute;pointer-events:none;opacity:.12}
+    .min-corner.tl{top:12px;left:12px}
+    .min-corner.tr{top:12px;right:12px;transform:scaleX(-1)}
+    .min-corner.bl{bottom:12px;left:12px;transform:scaleY(-1)}
+    .min-corner.br{bottom:12px;right:12px;transform:scale(-1,-1)}
+
+    .min-line-accent{position:relative;width:60px;height:1px;margin:0 auto;overflow:hidden}
+    .min-line-accent::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--sage),transparent);opacity:.25;animation:shimmer 3s linear infinite}
 
     /* Header collage */
     .header-collage{position:relative;height:106px;margin:0 auto 6px;max-width:320px}
@@ -168,7 +211,7 @@
 
   <!-- SCENE -->
   <div id="scene" class="scene-bg fixed inset-0 flex flex-col items-center justify-center overflow-hidden">
-    <div id="scene-glow" class="scene-glow fixed inset-0 pointer-events:none"></div>
+    <div id="scene-glow" class="scene-glow fixed inset-0 pointer-events-none"></div>
 
     <div class="particle w-1.5 h-1.5 bg-fuchsia-200/60" style="left:12%;--dur:8s;--delay:0s;--drift:30px"></div>
     <div class="particle w-1 h-1 bg-teal-300/50" style="left:28%;--dur:10s;--delay:1s;--drift:-20px"></div>
@@ -214,15 +257,17 @@
       <div class="absolute inset-0 paper-top-accent"></div>
     </div>
 
-    <div class="paper-bg relative px-6 pt-10 pb-8 text-center overflow-hidden flex-shrink-0">
+    <div class="paper-bg relative px-6 pt-10 pb-8 text-center overflow-visible flex-shrink-0">
       <div class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/35 to-transparent"></div>
+      
+      <!-- Minimal corner accents -->
+      <div class="min-corner tl" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M0 0 L18 0 L18 2 L2 2 L2 18 L0 18Z" fill="#6f8f72" opacity=".6"/></svg></div>
+      <div class="min-corner tr" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M0 0 L18 0 L18 2 L2 2 L2 18 L0 18Z" fill="#6f8f72" opacity=".6"/></svg></div>
+
+      <!-- Flower 1 — top left (original) -->
       <div class="flower-sprig anim-si d5" aria-hidden="true">
         <div class="flower-bloom">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span><span></span><span></span>
           <div class="flower-center"></div>
         </div>
         <div class="flower-stem"></div>
@@ -230,9 +275,76 @@
         <div class="flower-leaf two"></div>
       </div>
 
-      <!-- PHOTO COLLAGE (behind headline) -->
+      <!-- Flower 2 — top right -->
+      <div class="flower-sprig f2 anim-si d6" aria-hidden="true">
+        <div class="flower-bloom">
+          <span></span><span></span><span></span><span></span><span></span>
+          <div class="flower-center"></div>
+        </div>
+        <div class="flower-stem"></div>
+        <div class="flower-leaf one"></div>
+        <div class="flower-leaf two"></div>
+      </div>
+
+      <!-- Flower 3 — lower left -->
+      <div class="flower-sprig f3 anim-si d7" aria-hidden="true">
+        <div class="flower-bloom">
+          <span></span><span></span><span></span><span></span><span></span>
+          <div class="flower-center"></div>
+        </div>
+        <div class="flower-stem"></div>
+        <div class="flower-leaf one"></div>
+        <div class="flower-leaf two"></div>
+      </div>
+
+      <!-- Flower 4 — lower right -->
+      <div class="flower-sprig f4 anim-si d8" aria-hidden="true">
+        <div class="flower-bloom">
+          <span></span><span></span><span></span><span></span><span></span>
+          <div class="flower-center"></div>
+        </div>
+        <div class="flower-stem"></div>
+        <div class="flower-leaf one"></div>
+        <div class="flower-leaf two"></div>
+      </div>
+
+      <!-- Minimal branch — left side -->
+      <div class="min-branch" style="left:6px;top:100px;width:30px;height:40px" aria-hidden="true">
+        <svg viewBox="0 0 30 40" fill="none" stroke="#6f8f72" stroke-width="1" stroke-linecap="round">
+          <line x1="15" y1="40" x2="12" y2="8"/>
+          <line x1="12" y1="28" x2="4" y2="22"/>
+          <line x1="12" y1="20" x2="20" y2="14"/>
+          <line x1="12" y1="14" x2="5" y2="6"/>
+        </svg>
+      </div>
+
+      <!-- Minimal branch — right side -->
+      <div class="min-branch" style="right:6px;top:95px;width:30px;height:40px" aria-hidden="true">
+        <svg viewBox="0 0 30 40" fill="none" stroke="#6f8f72" stroke-width="1" stroke-linecap="round">
+          <line x1="15" y1="40" x2="18" y2="8"/>
+          <line x1="18" y1="28" x2="26" y2="22"/>
+          <line x1="18" y1="20" x2="10" y2="14"/>
+          <line x1="18" y1="14" x2="25" y2="6"/>
+        </svg>
+      </div>
+
+      <!-- Minimal dots -->
+      <div class="min-dot" style="left:50px;top:40px;background:#d85b7f;animation-delay:0s" aria-hidden="true"></div>
+      <div class="min-dot" style="right:50px;top:45px;background:#1f6f78;animation-delay:1s" aria-hidden="true"></div>
+      <div class="min-dot" style="left:35px;top:155px;background:#f4d8a4;animation-delay:.5s" aria-hidden="true"></div>
+      <div class="min-dot" style="right:38px;top:160px;background:#d85b7f;animation-delay:1.5s" aria-hidden="true"></div>
+
+      <!-- Minimal floating leaf — left -->
+      <div class="min-leaf" style="left:4px;top:68px;--lr:-12deg;animation-delay:0s" aria-hidden="true">
+        <svg width="16" height="10" viewBox="0 0 16 10"><path d="M0 10 Q8 0 16 10 Q8 7 0 10Z"/></svg>
+      </div>
+      <!-- Minimal floating leaf — right -->
+      <div class="min-leaf" style="right:4px;top:145px;--lr:10deg;animation-delay:2s" aria-hidden="true">
+        <svg width="14" height="9" viewBox="0 0 14 9"><path d="M0 9 Q7 0 14 9 Q7 6 0 9Z"/></svg>
+      </div>
+
+      <!-- PHOTO COLLAGE -->
       <div class="header-collage anim-si d1" aria-hidden="false">
-        <!-- REPLACE THESE 3 SRCs with your own photos of Julia -->
         <div class="collage-photo p1"><img src="img/pic1.jpg" alt="Julia, memory one" onload="this.classList.add('loaded')"></div>
         <div class="collage-photo p2"><img src="img/pic2.jpg" alt="Julia, memory two" onload="this.classList.add('loaded')"></div>
         <div class="collage-photo p3"><img src="img/pic3.jpg" alt="Julia, memory three" onload="this.classList.add('loaded')"></div>
@@ -246,7 +358,6 @@
       </div>
 
       <h1 class="birthday-title relative font-display font-medium italic text-stone-900 tracking-normal leading-[.95] mt-4 anim-fiu d3">Happy Birthday!</h1>
-      <!-- EDIT NAME -->
       <div class="relative mt-4 anim-fiu d6">
         <p class="font-display text-[22px] italic text-rose-900/65 font-medium">Dearest Julia,</p>
         <div class="mt-2.5 flex items-center justify-center gap-2">
@@ -266,15 +377,33 @@
       </div>
     </div>
 
-    <div class="paper-bg flex items-center justify-center gap-3 py-2 flex-shrink-0">
+    <!-- Minimal divider with botanical accent -->
+    <div class="paper-bg flex items-center justify-center gap-3 py-2 flex-shrink-0 relative">
       <div class="w-14 h-px bg-gradient-to-r from-transparent to-teal-300/30"></div>
+      <!-- tiny botanical mark -->
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="opacity-20" aria-hidden="true">
+        <path d="M7 0 Q10 4 7 14 Q4 4 7 0Z" fill="#6f8f72"/>
+        <line x1="7" y1="5" x2="3" y2="3" stroke="#6f8f72" stroke-width=".7"/>
+        <line x1="7" y1="7" x2="11" y2="5" stroke="#6f8f72" stroke-width=".7"/>
+      </svg>
       <span class="text-rose-400/45 text-[10px]">&#10087;</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="opacity-20" aria-hidden="true">
+        <path d="M7 0 Q10 4 7 14 Q4 4 7 0Z" fill="#6f8f72"/>
+        <line x1="7" y1="5" x2="11" y2="3" stroke="#6f8f72" stroke-width=".7"/>
+        <line x1="7" y1="7" x2="3" y2="5" stroke="#6f8f72" stroke-width=".7"/>
+      </svg>
       <div class="w-14 h-px bg-gradient-to-l from-transparent to-teal-300/30"></div>
     </div>
 
+    <!-- Letter body -->
     <div class="paper-bg relative px-7 pt-6 pb-10 flex-shrink-0">
+      <!-- Minimal side accents on letter body -->
+      <div class="min-dot" style="left:16px;top:20px;background:#d85b7f;animation-delay:.2s" aria-hidden="true"></div>
+      <div class="min-dot" style="right:16px;top:20px;background:#1f6f78;animation-delay:1.2s" aria-hidden="true"></div>
+      <div class="min-dot" style="left:16px;bottom:40px;background:#f4d8a4;animation-delay:.8s" aria-hidden="true"></div>
+      <div class="min-dot" style="right:16px;bottom:40px;background:#6f8f72;animation-delay:1.8s" aria-hidden="true"></div>
+
       <div class="letter-lines leading-[30px] text-stone-600 text-[15.5px] space-y-5">
-        <!-- EDIT YOUR MESSAGE -->
         <p class="letter-italic anim-fiu d6">Today is <em>your</em> day, and I couldn't let it pass without telling you how much you mean to me.</p>
         <p class="letter-italic anim-fiu d7">You have this incredible way of making everyone around you feel seen and loved. Your laugh is contagious, your kindness is endless, and your strength inspires me more than you'll ever know.</p>
         <p class="letter-italic anim-fiu d8">I hope this year brings you everything your beautiful heart deserves &#8212; adventures that take your breath away, quiet moments that fill you with peace, and people who love you as fiercely as you love them.</p>
@@ -283,17 +412,32 @@
       </div>
     </div>
 
-    <div class="paper-bg px-7 pb-12 text-right anim-fiu d15 flex-shrink-0">
+    <!-- Signature -->
+    <div class="paper-bg px-7 pb-10 text-right anim-fiu d15 flex-shrink-0 relative">
+      <!-- Minimal corner accents bottom -->
+      <div class="min-corner bl" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M0 0 L18 0 L18 2 L2 2 L2 18 L0 18Z" fill="#6f8f72" opacity=".6"/></svg></div>
+      <div class="min-corner br" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M0 0 L18 0 L18 2 L2 2 L2 18 L0 18Z" fill="#6f8f72" opacity=".6"/></svg></div>
       <p class="font-display text-[22px] italic text-stone-600">With all my love,</p>
-      <!-- EDIT YOUR NAME -->
       <p class="font-display text-[26px] italic text-rose-900 font-semibold mt-1">Josh &#10084;</p>
     </div>
 
-    <!-- PHOTO MEMORY GRID (collage of multiple pics) -->
-    <div class="px-6 pb-8 flex-shrink-0">
+    <!-- Minimal divider before photos -->
+    <div class="paper-bg flex items-center justify-center py-1 flex-shrink-0">
+      <div class="min-line-accent"></div>
+    </div>
+
+    <!-- PHOTO MEMORY GRID -->
+    <div class="px-6 pt-4 pb-8 flex-shrink-0 relative">
+      <!-- Tiny leaf accents near photos -->
+      <div class="min-leaf" style="left:8px;top:24px;--lr:-8deg;animation-delay:1s;opacity:.15" aria-hidden="true">
+        <svg width="12" height="8" viewBox="0 0 12 8"><path d="M0 8 Q6 0 12 8 Q6 5 0 8Z"/></svg>
+      </div>
+      <div class="min-leaf" style="right:8px;bottom:40px;--lr:15deg;animation-delay:3s;opacity:.15" aria-hidden="true">
+        <svg width="12" height="8" viewBox="0 0 12 8"><path d="M0 8 Q6 0 12 8 Q6 5 0 8Z"/></svg>
+      </div>
+
       <p class="text-center text-teal-700/40 text-[10px] uppercase tracking-[0.3em] mb-4 anim-fiu d18 font-sans">a few little memories</p>
       <div class="memory-grid anim-si d20 photo-glow">
-        <!-- REPLACE THESE SRCs with your own photos of Julia -->
         <div class="mg-item mg-big"><img src="img/pic.jpg" alt="A favorite memory with Julia" onload="this.classList.add('loaded')"></div>
         <div class="mg-item"><img src="img/pic4.jpg" alt="Another memory with Julia" onload="this.classList.add('loaded')"></div>
         <div class="mg-item"><img src="img/pic5.jpg" alt="Another memory with Julia" onload="this.classList.add('loaded')"></div>
@@ -301,7 +445,35 @@
       <p class="text-center text-stone-500/70 text-sm font-light leading-relaxed mt-4 px-4" style="font-family:'Playfair Display',serif;font-style:italic">"Some people make the world a little more beautiful just by being in it."</p>
     </div>
 
-    <div class="px-6 pb-6 flex-shrink-0">
+    <!-- Minimal divider before wish -->
+    <div class="paper-bg flex items-center justify-center py-1 flex-shrink-0">
+      <div class="flex items-center gap-2">
+        <div class="w-1 h-1 rounded-full bg-teal-300/20"></div>
+        <div class="min-line-accent" style="width:40px"></div>
+        <div class="w-1 h-1 rounded-full bg-rose-300/20"></div>
+        <div class="min-line-accent" style="width:40px"></div>
+        <div class="w-1 h-1 rounded-full bg-teal-300/20"></div>
+      </div>
+    </div>
+
+    <!-- Wish section -->
+    <div class="px-6 py-6 flex-shrink-0 relative">
+      <!-- Minimal branch accents flanking wish card -->
+      <div class="min-branch" style="left:12px;top:10px;width:22px;height:30px;opacity:.12" aria-hidden="true">
+        <svg viewBox="0 0 22 30" fill="none" stroke="#d85b7f" stroke-width="1" stroke-linecap="round">
+          <line x1="11" y1="30" x2="9" y2="5"/>
+          <line x1="9" y1="20" x2="3" y2="15"/>
+          <line x1="9" y1="12" x2="16" y2="8"/>
+        </svg>
+      </div>
+      <div class="min-branch" style="right:12px;bottom:10px;width:22px;height:30px;opacity:.12" aria-hidden="true">
+        <svg viewBox="0 0 22 30" fill="none" stroke="#d85b7f" stroke-width="1" stroke-linecap="round">
+          <line x1="11" y1="30" x2="13" y2="5"/>
+          <line x1="13" y1="20" x2="19" y2="15"/>
+          <line x1="13" y1="12" x2="6" y2="8"/>
+        </svg>
+      </div>
+
       <div class="wish-bg rounded-lg p-6 text-center relative overflow-hidden anim-fiu d25">
         <p class="text-rose-100/60 text-[10px] uppercase tracking-[0.3em] mb-3 relative font-sans">make a wish</p>
         <div class="relative text-3xl mb-3" style="animation:float 3s ease-in-out infinite">&#127775;</div>
@@ -314,7 +486,10 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center py-6 flex-shrink-0">
+    <!-- Send love -->
+    <div class="flex flex-col items-center py-6 flex-shrink-0 relative">
+      <div class="min-dot" style="left:calc(50% - 60px);top:8px;background:#d85b7f;animation-delay:0s" aria-hidden="true"></div>
+      <div class="min-dot" style="left:calc(50% + 55px);top:8px;background:#f4d8a4;animation-delay:1s" aria-hidden="true"></div>
       <button type="button" aria-label="Send love" onclick="sendHearts(event)" class="group relative px-10 py-3.5 rounded-full text-sm font-medium transition-all duration-300 active:scale-90 overflow-hidden" style="background:linear-gradient(135deg,#d85b7f,#1f6f78);box-shadow:0 8px 30px rgba(216,91,127,.24),0 10px 26px rgba(31,111,120,.18);font-family:'Playfair Display',serif;font-style:italic;letter-spacing:.03em">
         <span class="relative flex items-center gap-2.5 text-white">
           <span class="text-rose-100 group-active:scale-125 transition-transform">&#9829;</span>
@@ -324,10 +499,21 @@
       <p class="text-teal-800/30 text-[10px] mt-2.5 tracking-wider font-sans">tap as many times as you want</p>
     </div>
 
-    <div class="text-center pb-10 px-6 flex-shrink-0">
+    <!-- Footer -->
+    <div class="text-center pb-10 px-6 flex-shrink-0 relative">
+      <!-- Minimal leaf pair at bottom -->
+      <div class="min-leaf" style="left:calc(50% - 50px);bottom:50px;--lr:-20deg;opacity:.12" aria-hidden="true">
+        <svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 7 Q5 0 10 7 Q5 5 0 7Z"/></svg>
+      </div>
+      <div class="min-leaf" style="left:calc(50% + 40px);bottom:48px;--lr:20deg;opacity:.12" aria-hidden="true">
+        <svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 7 Q5 0 10 7 Q5 5 0 7Z"/></svg>
+      </div>
+
       <div class="flex items-center justify-center gap-3 mb-4">
         <div class="w-10 h-px bg-gradient-to-r from-transparent to-rose-300/25"></div>
-        <span class="text-teal-700/25 text-sm">&#10022;</span>
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" class="opacity-15" aria-hidden="true">
+          <path d="M5 0 Q8 3 5 10 Q2 3 5 0Z" fill="#6f8f72"/>
+        </svg>
         <div class="w-10 h-px bg-gradient-to-l from-transparent to-rose-300/25"></div>
       </div>
       <p class="font-display text-rose-900/35 text-[22px] italic leading-relaxed">Happy Birthday,<br>beautiful soul</p>
