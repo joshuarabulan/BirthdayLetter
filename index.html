@@ -171,13 +171,13 @@
     .min-line-accent::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--sage),transparent);opacity:.25;animation:shimmer 3s linear infinite}
 
     /* Header collage */
-    .header-collage{position:relative;height:106px;margin:0 auto 6px;max-width:320px}
-    .collage-photo{position:absolute;width:94px;height:94px;border-radius:6px;overflow:hidden;background:#f0e0d2;border:4px solid #fffdfa;box-shadow:0 8px 22px rgba(43,36,38,.22)}
-    .collage-photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s ease}
+    .header-collage{position:relative;height:210px;margin:0 auto 10px;max-width:340px}
+    .collage-photo{position:absolute;width:118px;height:158px;border-radius:6px;overflow:hidden;background:#f0e0d2;border:4px solid #fffdfa;box-shadow:0 8px 22px rgba(43,36,38,.22)}
+    .collage-photo img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;opacity:0;transition:opacity .5s ease}
     .collage-photo img.loaded{opacity:1}
-    .collage-photo.p1{left:2px;top:8px;transform:rotate(-9deg);z-index:1}
-    .collage-photo.p2{left:50%;top:-4px;transform:translateX(-50%) rotate(3deg);z-index:3}
-    .collage-photo.p3{right:2px;top:12px;transform:rotate(10deg);z-index:2}
+    .collage-photo.p1{left:-6px;top:24px;transform:rotate(-9deg);z-index:1}
+    .collage-photo.p2{left:50%;top:0;transform:translateX(-50%) rotate(3deg);z-index:3}
+    .collage-photo.p3{right:-6px;top:28px;transform:rotate(10deg);z-index:2}
 
     /* Memory grid */
     .memory-grid{display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:1fr 1fr;gap:8px;width:min(100%,430px);margin-inline:auto;aspect-ratio:3/2.1}
@@ -196,6 +196,11 @@
       #envelope-wrapper{transform:scale(.92)}
       #envelope-wrapper.shrunk{transform:scale(.3) translateY(-220px)}
       .letter-lines{font-size:15px;line-height:29px}
+      .header-collage{height:186px;max-width:300px}
+      .collage-photo{width:102px;height:138px}
+      .collage-photo.p1{left:-4px;top:22px}
+      .collage-photo.p2{top:0}
+      .collage-photo.p3{right:-4px;top:26px}
     }
 
     @media (prefers-reduced-motion:reduce){
@@ -286,6 +291,15 @@
         <div class="flower-leaf two"></div>
       </div>
 
+      <div class="absolute anim-stamp d15" style="right:64px;top:10px;z-index:5">
+        <div class="w-12 h-14 border-2 border-dashed border-teal-300/50 rounded-sm flex items-center justify-center bg-[#fff9f2]" style="transform:rotate(11deg)">
+          <div class="text-center">
+            <span class="text-[9px] font-semibold text-rose-600 tracking-wider block font-sans">HUGS</span>
+            <span class="text-teal-500 text-xs">&#10022;</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Flower 3 — lower left -->
       <div class="flower-sprig f3 anim-si d7" aria-hidden="true">
         <div class="flower-bloom">
@@ -297,6 +311,15 @@
         <div class="flower-leaf two"></div>
       </div>
 
+      <div class="absolute anim-stamp d18" style="left:60px;top:150px;z-index:5">
+        <div class="w-11 h-[52px] border-2 border-dashed border-sage-300/50 rounded-sm flex items-center justify-center bg-[#fff9f2]" style="transform:rotate(-10deg);border-color:rgba(111,143,114,.5)">
+          <div class="text-center">
+            <span class="text-[8px] font-semibold text-rose-600 tracking-wider block font-sans">SMILE</span>
+            <span class="text-teal-600 text-xs">&#9733;</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Flower 4 — lower right -->
       <div class="flower-sprig f4 anim-si d8" aria-hidden="true">
         <div class="flower-bloom">
@@ -306,6 +329,15 @@
         <div class="flower-stem"></div>
         <div class="flower-leaf one"></div>
         <div class="flower-leaf two"></div>
+      </div>
+
+      <div class="absolute anim-stamp d20" style="right:58px;top:145px;z-index:5">
+        <div class="w-11 h-[52px] border-2 border-dashed border-teal-300/50 rounded-sm flex items-center justify-center bg-[#fff9f2]" style="transform:rotate(9deg)">
+          <div class="text-center">
+            <span class="text-[8px] font-semibold text-teal-700 tracking-wider block font-sans">WISH</span>
+            <span class="text-rose-400 text-xs">&#10022;</span>
+          </div>
+        </div>
       </div>
 
       <!-- Minimal branch — left side -->
@@ -359,7 +391,7 @@
 
       <h1 class="birthday-title relative font-display font-medium italic text-stone-900 tracking-normal leading-[.95] mt-4 anim-fiu d3">Happy Birthday!</h1>
       <div class="relative mt-4 anim-fiu d6">
-        <p class="font-display text-[22px] italic text-rose-900/65 font-medium">Dearest Julia,</p>
+        <p class="font-display text-[34px] italic text-rose-900/75 font-semibold">Julia <span class="text-rose-400">&#9829;</span></p>
         <div class="mt-2.5 flex items-center justify-center gap-2">
           <div class="w-10 h-px bg-teal-300/30"></div>
           <span class="text-rose-400/60 text-xs">&#10022;</span>
@@ -367,8 +399,8 @@
         </div>
       </div>
 
-      <div class="absolute top-4 right-4 anim-stamp d15">
-        <div class="w-12 h-14 border-2 border-dashed border-rose-300/50 rounded-sm flex items-center justify-center" style="transform:rotate(-12deg)">
+      <div class="absolute anim-stamp d15" style="left:66px;top:12px;z-index:5">
+        <div class="w-12 h-14 border-2 border-dashed border-rose-300/50 rounded-sm flex items-center justify-center bg-[#fff9f2]" style="transform:rotate(-12deg)">
           <div class="text-center">
             <span class="text-[9px] font-semibold text-teal-700 tracking-wider block font-sans">LOVE</span>
             <span class="text-rose-400 text-xs">&#9829;</span>
@@ -418,7 +450,7 @@
       <div class="min-corner bl" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M0 0 L18 0 L18 2 L2 2 L2 18 L0 18Z" fill="#6f8f72" opacity=".6"/></svg></div>
       <div class="min-corner br" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M0 0 L18 0 L18 2 L2 2 L2 18 L0 18Z" fill="#6f8f72" opacity=".6"/></svg></div>
       <p class="font-display text-[22px] italic text-stone-600">With all my love,</p>
-      <p class="font-display text-[26px] italic text-rose-900 font-semibold mt-1">Josh &#10084;</p>
+      <p class="font-display text-[26px] italic text-rose-900 font-semibold mt-1">Josh</p>
     </div>
 
     <!-- Minimal divider before photos -->
@@ -439,10 +471,10 @@
       <p class="text-center text-teal-700/40 text-[10px] uppercase tracking-[0.3em] mb-4 anim-fiu d18 font-sans">a few little memories</p>
       <div class="memory-grid anim-si d20 photo-glow">
         <div class="mg-item mg-big"><img src="img/pic.jpg" alt="A favorite memory with Julia" onload="this.classList.add('loaded')"></div>
-        <div class="mg-item"><img src="img/pic4.jpg" alt="Another memory with Julia" onload="this.classList.add('loaded')"></div>
+        <div class="mg-item"><img src="img/picc.jpg" alt="Another memory with Julia" onload="this.classList.add('loaded')"></div>
         <div class="mg-item"><img src="img/pic5.jpg" alt="Another memory with Julia" onload="this.classList.add('loaded')"></div>
       </div>
-      <p class="text-center text-stone-500/70 text-sm font-light leading-relaxed mt-4 px-4" style="font-family:'Playfair Display',serif;font-style:italic">"Some people make the world a little more beautiful just by being in it."</p>
+      <p class="text-center text-stone-500/70 text-sm font-light leading-relaxed mt-4 px-4" style="font-family:'Playfair Display',serif;font-style:italic">"Take care. Hope to see you soon."</p>
     </div>
 
     <!-- Minimal divider before wish -->
